@@ -13,6 +13,17 @@ def compute_depth(disparity, Q):
     points_3D = cv2.reprojectImageTo3D(disparity, Q)
     return points_3D
 
+def save_results_yaml(filename, focal_length, baseline, plant_height_cm, top_depth, bottom_depth):
+    data = {
+        'focal_length_px': float(focal_length),
+        'baseline': float(baseline),
+        'plant_height_cm': float(plant_height_cm),
+        'top_depth_cm': float(top_depth),
+        'bottom_depth_cm': float(bottom_depth)
+    }
+    with open(filename, "w") as f:
+        yaml.dump(data, f)
+
 # Kalibrierdaten aus YAML laden
 fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
 
@@ -30,7 +41,7 @@ print(f"f = {focal_length:.2f} px, B = {baseline:.2f} cm")
 imgL = cv2.imread("calib_images/left_plant01.jpg", cv2.IMREAD_GRAYSCALE)
 imgR = cv2.imread("calib_images/right_plant01.jpg", cv2.IMREAD_GRAYSCALE)
 
-# 🔧 StereoSGBM verwenden (besser als StereoBM!)
+# StereoSGBM verwenden
 stereo = cv2.StereoSGBM_create(
     minDisparity=0,
     numDisparities=64,
@@ -52,7 +63,7 @@ Q = load_q_matrix("stereo_calibration_analysis.yaml")
 # Compute 3D points (depth)
 points_3D = compute_depth(disparity, Q)
 
-# Example: get Z (depth) values
+# Z (depth) values extrahieren
 depth_map = points_3D[:, :, 2]
 print("Depth map shape:", depth_map.shape)
 print("Sample depth values:", depth_map[240, 320])
@@ -65,7 +76,17 @@ top_depth = np.median(col[10:30][col[10:30] > 0])
 bottom_depth = np.median(col[-30:][col[-30:] > 0])
 plant_height_cm = abs(bottom_depth - top_depth)
 
-print(f"📐 Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
+print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
+
+# Ergebnisse als YAML speichern
+save_results_yaml(
+    "tiefenberechnung_results.yaml",
+    focal_length,
+    baseline,
+    plant_height_cm,
+    top_depth,
+    bottom_depth
+)
 
 # Optionale Visualisierung
 disp_vis = cv2.normalize(disparity, None, 0, 255, cv2.NORM_MINMAX)
