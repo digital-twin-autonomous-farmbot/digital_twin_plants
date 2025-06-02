@@ -81,15 +81,31 @@ depth_map = points_3D[:, :, 2]
 bbox = extract_bbox_from_txt("calib_images/bbox_plant01.txt")
 if bbox:
     x, y, w, h = bbox
-    # Bounding Box auf Bildgrenzen beschränken
     height, width = depth_map.shape
+
+    # --- Bounding Box von AI-Detektionsbild auf aktuelle Bildgröße skalieren ---
+    # Werte ggf. anpassen, falls dein AI-Detektionsbild andere Maße hat!
+    ai_width = 2026
+    ai_height = 1520
+
+    scale_x = width / ai_width
+    scale_y = height / ai_height
+
+    x = int(x * scale_x)
+    y = int(y * scale_y)
+    w = int(w * scale_x)
+    h = int(h * scale_y)
+
+    # Bounding Box auf Bildgrenzen beschränken
     x = max(0, min(x, width-1))
     y = max(0, min(y, height-1))
     w = min(w, width - x)
     h = min(h, height - y)
+    # --- Ende Skalierung ---
+
     roi = depth_map[y:y+h, x:x+w]
     roi_valid = roi[np.isfinite(roi) & (roi > 0)]
-    print(f"BBox: x={x}, y={y}, w={w}, h={h}")
+    print(f"BBox (skaliert): x={x}, y={y}, w={w}, h={h}")
     print(f"Bildgröße: {depth_map.shape}")
     print(f"ROI shape: {roi.shape}, gültige Werte: {roi_valid.size}")
     if roi_valid.size > 60:
