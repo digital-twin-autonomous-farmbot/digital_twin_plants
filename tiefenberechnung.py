@@ -81,8 +81,16 @@ depth_map = points_3D[:, :, 2]
 bbox = extract_bbox_from_txt("calib_images/bbox_plant01.txt")
 if bbox:
     x, y, w, h = bbox
+    # Bounding Box auf Bildgrenzen beschränken
+    height, width = depth_map.shape
+    x = max(0, min(x, width-1))
+    y = max(0, min(y, height-1))
+    w = min(w, width - x)
+    h = min(h, height - y)
     roi = depth_map[y:y+h, x:x+w]
     roi_valid = roi[np.isfinite(roi) & (roi > 0)]
+    print(f"BBox: x={x}, y={y}, w={w}, h={h}")
+    print(f"Bildgröße: {depth_map.shape}")
     print(f"ROI shape: {roi.shape}, gültige Werte: {roi_valid.size}")
     if roi_valid.size > 60:
         top_band = roi[0:10, :][np.isfinite(roi[0:10, :]) & (roi[0:10, :] > 0)]
