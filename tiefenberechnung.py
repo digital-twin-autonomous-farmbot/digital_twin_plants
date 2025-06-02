@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import yaml
+import re
 
 def load_q_matrix(yaml_path):
     with open(yaml_path, "r") as f:
@@ -9,7 +10,6 @@ def load_q_matrix(yaml_path):
     return Q
 
 def compute_depth(disparity, Q):
-    # disparity: single-channel float32 image (output from stereo matcher)
     points_3D = cv2.reprojectImageTo3D(disparity, Q)
     return points_3D
 
@@ -24,9 +24,20 @@ def save_results_yaml(filename, focal_length, baseline, plant_height_cm, top_dep
     with open(filename, "w") as f:
         yaml.dump(data, f)
 
+def extract_bbox_from_txt(txt_path):
+    with open(txt_path, "r") as f:
+        for line in f:
+            match = re.search(r'@ (\d+),(\d+) (\d+)x(\d+)', line)
+            if match:
+                x = int(match.group(1))
+                y = int(match.group(2))
+                w = int(match.group(3))
+                h = int(match.group(4))
+                return x, y, w, h
+    return None
+
 # Kalibrierdaten aus YAML laden
 fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
-
 mtx_l = fs.getNode("mtx_l").mat()
 T = fs.getNode("T").mat()
 fs.release()
@@ -65,17 +76,23 @@ points_3D = compute_depth(disparity, Q)
 
 # Z (depth) values extrahieren und ungültige Werte maskieren
 depth_map = points_3D[:, :, 2]
-valid_mask = np.isfinite(depth_map) & (depth_map > 0)
 
-center_x = depth_map.shape[1] // 2
-col = depth_map[:, center_x]
-col_valid = col[np.isfinite(col) & (col > 0)]
-
-if len(col_valid) > 60:
-    top_depth = np.median(col_valid[10:30])
-    bottom_depth = np.median(col_valid[-30:])
-    plant_height_cm = abs(bottom_depth - top_depth)
+# Bounding Box aus AI Detection laden
+bbox = extract_bbox_from_txt("calib_images/bbox_plant01.txt")
+if bbox:
+    x, y, w, h = bbox
+    roi = depth_map[y:y+h, x:x+w]
+    roi_valid = roi[np.isfinite(roi) & (roi > 0)]
+    if roi_valid.size > 60:
+        top_band = roi[0:10, :][np.isfinite(roi[0:10, :]) & (roi[0:10, :] > 0)]
+        bottom_band = roi[-10:, :][np.isfinite(roi[-10:, :]) & (roi[-10:, :] > 0)]
+        top_depth = np.median(top_band)
+        bottom_depth = np.median(bottom_band)
+        plant_height_cm = abs(bottom_depth - top_depth)
+    else:
+        top_depth = bottom_depth = plant_height_cm = float('nan')
 else:
+    print("No bounding box found!")
     top_depth = bottom_depth = plant_height_cm = float('nan')
 
 print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
@@ -102,6 +119,9 @@ if np.any(valid):
     maxv = np.percentile(depth_map[valid], 98)
     normed = np.clip((depth_map - minv) / (maxv - minv) * 255, 0, 255)
     depth_vis[valid] = normed[valid].astype(np.uint8)
+    # Draw bounding box for visualization
+    if bbox:
+        cv2.rectangle(depth_vis, (x, y), (x+w, y+h), 255, 2)
 cv2.imshow("Tiefe", depth_vis)
 
 cv2.waitKey(0)
