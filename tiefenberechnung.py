@@ -63,18 +63,20 @@ Q = load_q_matrix("stereo_calibration_analysis.yaml")
 # Compute 3D points (depth)
 points_3D = compute_depth(disparity, Q)
 
-# Z (depth) values extrahieren
+# Z (depth) values extrahieren und ungültige Werte maskieren
 depth_map = points_3D[:, :, 2]
-print("Depth map shape:", depth_map.shape)
-print("Sample depth values:", depth_map[240, 320])
+valid_mask = np.isfinite(depth_map) & (depth_map > 0)
 
-# Pflanzenhöhe messen im Bildzentrum
 center_x = depth_map.shape[1] // 2
 col = depth_map[:, center_x]
+col_valid = col[np.isfinite(col) & (col > 0)]
 
-top_depth = np.median(col[10:30][col[10:30] > 0])
-bottom_depth = np.median(col[-30:][col[-30:] > 0])
-plant_height_cm = abs(bottom_depth - top_depth)
+if len(col_valid) > 60:
+    top_depth = np.median(col_valid[10:30])
+    bottom_depth = np.median(col_valid[-30:])
+    plant_height_cm = abs(bottom_depth - top_depth)
+else:
+    top_depth = bottom_depth = plant_height_cm = float('nan')
 
 print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
 
@@ -92,8 +94,15 @@ save_results_yaml(
 disp_vis = cv2.normalize(disparity, None, 0, 255, cv2.NORM_MINMAX)
 cv2.imshow("Disparität", np.uint8(disp_vis))
 
-depth_vis = cv2.normalize(depth_map, None, 0, 255, cv2.NORM_MINMAX)
-cv2.imshow("Tiefe", np.uint8(depth_vis))
+# Nur gültige Tiefenwerte für die Visualisierung verwenden
+depth_vis = np.zeros_like(depth_map, dtype=np.uint8)
+valid = np.isfinite(depth_map) & (depth_map > 0)
+if np.any(valid):
+    minv = np.percentile(depth_map[valid], 2)
+    maxv = np.percentile(depth_map[valid], 98)
+    normed = np.clip((depth_map - minv) / (maxv - minv) * 255, 0, 255)
+    depth_vis[valid] = normed[valid].astype(np.uint8)
+cv2.imshow("Tiefe", depth_vis)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
