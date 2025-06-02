@@ -77,19 +77,22 @@ points_3D = compute_depth(disparity, Q)
 # Z (depth) values extrahieren und ungültige Werte maskieren
 depth_map = points_3D[:, :, 2]
 
-# Bounding Box aus AI Detection laden
+# Bounding Box aus AI Detection laden und Debug-Ausgaben
 bbox = extract_bbox_from_txt("calib_images/bbox_plant01.txt")
 if bbox:
     x, y, w, h = bbox
     roi = depth_map[y:y+h, x:x+w]
     roi_valid = roi[np.isfinite(roi) & (roi > 0)]
+    print(f"ROI shape: {roi.shape}, gültige Werte: {roi_valid.size}")
     if roi_valid.size > 60:
         top_band = roi[0:10, :][np.isfinite(roi[0:10, :]) & (roi[0:10, :] > 0)]
         bottom_band = roi[-10:, :][np.isfinite(roi[-10:, :]) & (roi[-10:, :] > 0)]
-        top_depth = np.median(top_band)
-        bottom_depth = np.median(bottom_band)
+        print(f"Top-Band gültige Werte: {top_band.size}, Bottom-Band gültige Werte: {bottom_band.size}")
+        top_depth = np.median(top_band) if top_band.size > 0 else float('nan')
+        bottom_depth = np.median(bottom_band) if bottom_band.size > 0 else float('nan')
         plant_height_cm = abs(bottom_depth - top_depth)
     else:
+        print("Zu wenig gültige Werte im ROI!")
         top_depth = bottom_depth = plant_height_cm = float('nan')
 else:
     print("No bounding box found!")
