@@ -19,7 +19,8 @@ for i in $(seq -f "%02g" 1 15); do
       --post-process-file /usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json \
       --width 640 --height 480 \
       --output /dev/null \
-      > $OUTDIR/bbox_plant$i.txt
+      --verbose \
+      > $OUTDIR/bbox_plant$i.txt 2>&1
 
     echo "Bildpaar $i aufgenommen und Bounding Box gespeichert"
     sleep 2
