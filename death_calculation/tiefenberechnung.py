@@ -13,13 +13,14 @@ def compute_depth(disparity, Q):
     points_3D = cv2.reprojectImageTo3D(disparity, Q)
     return points_3D
 
-def save_results_yaml(filename, focal_length, baseline, plant_height_cm, top_depth, bottom_depth):
+def save_results_yaml(filename, focal_length, baseline, plant_height_cm, top_depth, bottom_depth, mean_depth):
     data = {
         'focal_length_px': float(focal_length),
         'baseline': float(baseline),
         'plant_height_cm': float(plant_height_cm),
         'top_depth_cm': float(top_depth),
-        'bottom_depth_cm': float(bottom_depth)
+        'bottom_depth_cm': float(bottom_depth),
+        'mean_depth_cm': float(mean_depth)
     }
     with open(filename, "w") as f:
         yaml.dump(data, f)
