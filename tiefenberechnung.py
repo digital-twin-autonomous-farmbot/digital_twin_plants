@@ -39,6 +39,10 @@ def extract_bbox_from_txt(txt_path):
 # Kalibrierdaten aus YAML laden
 fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
 mtx_l = fs.getNode("mtx_l").mat()
+mtx_r = fs.getNode("mtx_r").mat()
+dist_l = fs.getNode("dist_l").mat()
+dist_r = fs.getNode("dist_r").mat()
+R = fs.getNode("R").mat()
 T = fs.getNode("T").mat()
 fs.release()
 
@@ -96,17 +100,62 @@ if bbox:
     w = int(w * scale_x)
     h = int(h * scale_y)
 
-    # Bounding Box auf Bildgrenzen beschränke
-    # nicht skalieren sondern beschneiden(crop)
+    # --- Bounding Box auf rechtes Bild projizieren ---
+    # Die vier Ecken der BBox im linken Bild
+    bbox_corners = np.array([
+        [x, y],
+        [x + w, y],
+        [x + w, y + h],
+        [x, y + h]
+    ], dtype=np.float32)
+
+    # Annahme: Die BBox liegt auf einer Ebene, wir nehmen mittlere Disparität im BBox-Bereich
+    bbox_disp = disparity[y:y+h, x:x+w]
+    valid_disp = bbox_disp[np.isfinite(bbox_disp) & (bbox_disp > 0)]
+    if valid_disp.size > 0:
+        mean_disp = np.median(valid_disp)
+    else:
+        mean_disp = np.median(disparity[np.isfinite(disparity) & (disparity > 0)])
+
+    # Reprojiziere die BBox-Ecken in 3D (linkes Bild)
+    pts_3d = cv2.reprojectImageTo3D(
+        mean_disp * np.ones((4, 1), dtype=np.float32), Q
+    )
+    # Die 2D-Pixelkoordinaten der BBox-Ecken im linken Bild
+    pts_2d_left = bbox_corners.reshape(-1, 1, 2).astype(np.float32)
+    # Undistort
+    pts_undist_left = cv2.undistortPoints(pts_2d_left, mtx_l, dist_l, P=mtx_l)
+    # Triangulation/Projektion: Wir nehmen an, dass alle Ecken auf gleicher Tiefe liegen (vereinfachend)
+    # Transformiere die 3D-Punkte in das rechte Kamerasystem
+    pts_3d_right = (R @ pts_3d.T + T).T
+    # Projektion ins rechte Bild
+    pts_2d_right, _ = cv2.projectPoints(pts_3d_right, np.zeros(3), np.zeros(3), mtx_r, dist_r)
+    pts_2d_right = pts_2d_right.reshape(-1, 2)
+
+    # Neue BBox im rechten Bild bestimmen
+    x_r, y_r, w_r, h_r = (
+        int(np.min(pts_2d_right[:, 0])),
+        int(np.min(pts_2d_right[:, 1])),
+        int(np.max(pts_2d_right[:, 0]) - np.min(pts_2d_right[:, 0])),
+        int(np.max(pts_2d_right[:, 1]) - np.min(pts_2d_right[:, 1]))
+    )
+
+    # Bounding Box auf Bildgrenzen beschränken
     x = max(0, min(x, width-1))
     y = max(0, min(y, height-1))
     w = min(w, width - x)
     h = min(h, height - y)
-    # --- Ende Skalierung ---
+    x_r = max(0, min(x_r, width-1))
+    y_r = max(0, min(y_r, height-1))
+    w_r = min(w_r, width - x_r)
+    h_r = min(h_r, height - y_r)
+    # --- Ende Projektion ---
 
+    # ROI im linken Bild
     roi = depth_map[y:y+h, x:x+w]
     roi_valid = roi[np.isfinite(roi) & (roi > 0)]
-    print(f"BBox (skaliert): x={x}, y={y}, w={w}, h={h}")
+    print(f"BBox links (skaliert): x={x}, y={y}, w={w}, h={h}")
+    print(f"BBox rechts (projiziert): x={x_r}, y={y_r}, w={w_r}, h={h_r}")
     print(f"Bildgröße: {depth_map.shape}")
     print(f"ROI shape: {roi.shape}, gültige Werte: {roi_valid.size}")
     if roi_valid.size > 60:
@@ -147,9 +196,11 @@ if np.any(valid):
     maxv = np.percentile(depth_map[valid], 98)
     normed = np.clip((depth_map - minv) / (maxv - minv) * 255, 0, 255)
     depth_vis[valid] = normed[valid].astype(np.uint8)
-    # Draw bounding box for visualization
+    # Draw bounding box for visualization (left)
     if bbox:
         cv2.rectangle(depth_vis, (x, y), (x+w, y+h), 255, 2)
+        # Draw projected bounding box (right)
+        cv2.rectangle(depth_vis, (x_r, y_r), (x_r+w_r, y_r+h_r), 128, 2)
 cv2.imshow("Tiefe", depth_vis)
 
 cv2.waitKey(0)
