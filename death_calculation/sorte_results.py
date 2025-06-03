@@ -1,3 +1,5 @@
+# mit R script ersetzten linesare coorelation ja oder nein
+
 import yaml
 
 with open("results/tiefenberechnung_results.yaml", "r") as f:
