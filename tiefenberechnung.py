@@ -51,7 +51,7 @@ fs.release()
 
 # focal_length in Pixel (fx) und baseline in cm
 focal_length = mtx_l[0, 0]
-baseline = abs(T[0, 0])
+baseline = abs(T[0, 0]) / 10.0
 
 print(f"f = {focal_length:.2f} px, B = {baseline:.2f} cm")
 
