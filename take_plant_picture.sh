@@ -25,4 +25,4 @@ for i in $(seq -f "%02g" 1 2); do
 
     echo "Bildpaar $i aufgenommen und Bounding Box gespeichert"
     sleep 2
-doneS
+done
