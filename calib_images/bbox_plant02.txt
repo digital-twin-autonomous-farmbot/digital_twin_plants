@@ -1,8 +1,8 @@
-[0:12:37.482702123] [3760] [1;32m INFO [1;37mCamera [1;34mcamera_manager.cpp:326 [0mlibcamera v0.5.0+59-d83ff0a4
-[0:12:37.492356282] [3764] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
-[0:12:37.511827842] [3764] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@88000/imx500@1a to CFE device /dev/media0 and ISP device /dev/media3 using PiSP variant BCM2712_D0
-[0:12:37.512033917] [3764] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
-[0:12:37.521559224] [3764] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a to CFE device /dev/media1 and ISP device /dev/media4 using PiSP variant BCM2712_D0
+[0:34:34.412161960] [16180] [1;32m INFO [1;37mCamera [1;34mcamera_manager.cpp:326 [0mlibcamera v0.5.0+59-d83ff0a4
+[0:34:34.421778405] [16184] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
+[0:34:34.441266740] [16184] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@88000/imx500@1a to CFE device /dev/media0 and ISP device /dev/media3 using PiSP variant BCM2712_D0
+[0:34:34.441452333] [16184] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
+[0:34:34.450588241] [16184] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a to CFE device /dev/media1 and ISP device /dev/media4 using PiSP variant BCM2712_D0
 Options:
     verbose: 2
     info_text:#%frame (%fps fps) exp %exp ag %ag dg %dg
@@ -60,8 +60,8 @@ Mode selection for 2026:1520:12:P
     SRGGB10_CSI2P,2028x1520/0 - Score: 1000.99
     SRGGB10_CSI2P,4056x3040/0 - Score: 1887.99
 Stream configuration adjusted
-[0:12:37.641910865] [3760] [1;32m INFO [1;37mCamera [1;34mcamera.cpp:1205 [0mconfiguring streams: (0) 2026x1520-YUV420 (1) 2028x1520-RGGB_PISP_COMP1
-[0:12:37.642028199] [3764] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1483 [0mSensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a - Selected sensor format: 2028x1520-SRGGB10_1X10 - Selected CFE format: 2028x1520-PC1R
+[0:34:34.587950436] [16180] [1;32m INFO [1;37mCamera [1;34mcamera.cpp:1205 [0mconfiguring streams: (0) 2026x1520-YUV420 (1) 2028x1520-RGGB_PISP_COMP1
+[0:34:34.588082918] [16184] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1483 [0mSensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a - Selected sensor format: 2028x1520-SRGGB10_1X10 - Selected CFE format: 2028x1520-PC1R
 Camera streams configured
 Available controls:
     AeExposureMode : [0..3]
@@ -97,71 +97,79 @@ Requests created
 Using crop (main) (2, 0)/4052x3040
 Network Firmware Upload: 0% (0/3872 KB)Network Firmware Upload: 0% (0/3872 KB)Network Firmware Upload: 26% (1024/3872 KB)Network Firmware Upload: 26% (1024/3872 KB)Network Firmware Upload: 52% (2048/3872 KB)Network Firmware Upload: 79% (3072/3872 KB)Camera started!
 Network Firmware Upload: 100% (3872/3872 KB)
-(1333, 1414)/1796x1607 -> (sensor) (666, 707)/898x803 -> (bound) (666, 707)/898x803 -> (translate) (665, 707)/898x803 -> (scaled) (665, 707)/898x803
-(1661, 2589)/853x450 -> (sensor) (830, 1294)/426x225 -> (bound) (830, 1294)/426x225 -> (translate) (829, 1294)/426x225 -> (scaled) (829, 1294)/426x225
+(950, 1386)/1750x1540 -> (sensor) (475, 693)/875x770 -> (bound) (475, 693)/875x770 -> (translate) (474, 693)/875x770 -> (scaled) (474, 693)/875x770
+(1296, 2378)/854x656 -> (sensor) (648, 1189)/427x328 -> (bound) (648, 1189)/427x328 -> (translate) (647, 1189)/427x328 -> (scaled) (647, 1189)/427x328
 Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 665,707 898x803
-[1] : vase[85] (0.62) @ 829,1294 426x225
+[0] : potted plant[63] (0.62) @ 474,693 875x770
+[1] : vase[85] (0.62) @ 647,1189 427x328
 Viewfinder frame 0
 Viewfinder frame 1
-(1333, 1434)/1796x1567 -> (sensor) (666, 717)/898x783 -> (bound) (666, 717)/898x783 -> (translate) (665, 717)/898x783 -> (scaled) (665, 717)/898x783
-(1661, 2595)/853x444 -> (sensor) (830, 1297)/426x222 -> (bound) (830, 1297)/426x222 -> (translate) (829, 1297)/426x222 -> (scaled) (829, 1297)/426x222
+(948, 1346)/1796x1620 -> (sensor) (474, 673)/898x810 -> (bound) (474, 673)/898x810 -> (translate) (473, 673)/898x810 -> (scaled) (473, 673)/898x810
+(1307, 2378)/833x656 -> (sensor) (653, 1189)/416x328 -> (bound) (653, 1189)/416x328 -> (translate) (652, 1189)/416x328 -> (scaled) (652, 1189)/416x328
 Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 665,717 898x783
-[1] : vase[85] (0.62) @ 829,1297 426x222
+[0] : potted plant[63] (0.62) @ 473,673 898x810
+[1] : vase[85] (0.62) @ 652,1189 416x328
 Viewfinder frame 2
 Viewfinder frame 3
-(1312, 1449)/1796x1567 -> (sensor) (656, 724)/898x783 -> (bound) (656, 724)/898x783 -> (translate) (655, 724)/898x783 -> (scaled) (655, 724)/898x783
-Number of objects detected: 1
-[0] : potted plant[63] (0.62) @ 655,724 898x783
+(927, 1366)/1796x1579 -> (sensor) (463, 683)/898x789 -> (bound) (463, 683)/898x789 -> (translate) (462, 683)/898x789 -> (scaled) (462, 683)/898x789
+(1318, 2370)/833x656 -> (sensor) (659, 1185)/416x328 -> (bound) (659, 1185)/416x328 -> (translate) (658, 1185)/416x328 -> (scaled) (658, 1185)/416x328
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 462,683 898x789
+[1] : vase[85] (0.62) @ 658,1185 416x328
 Viewfinder frame 4
 Viewfinder frame 5
-(1355, 1449)/1750x1567 -> (sensor) (677, 724)/875x783 -> (bound) (677, 724)/875x783 -> (translate) (676, 724)/875x783 -> (scaled) (676, 724)/875x783
-(1661, 2589)/853x450 -> (sensor) (830, 1294)/426x225 -> (bound) (830, 1294)/426x225 -> (translate) (829, 1294)/426x225 -> (scaled) (829, 1294)/426x225
+(971, 1366)/1750x1579 -> (sensor) (485, 683)/875x789 -> (bound) (485, 683)/875x789 -> (translate) (484, 683)/875x789 -> (scaled) (484, 683)/875x789
+(1307, 2386)/833x640 -> (sensor) (653, 1193)/416x320 -> (bound) (653, 1193)/416x320 -> (translate) (652, 1193)/416x320 -> (scaled) (652, 1193)/416x320
 Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 676,724 875x783
-[1] : vase[85] (0.62) @ 829,1294 426x225
+[0] : potted plant[63] (0.62) @ 484,683 875x789
+[1] : vase[85] (0.62) @ 652,1193 416x320
 Viewfinder frame 6
 Viewfinder frame 7
-(1355, 1434)/1750x1567 -> (sensor) (677, 717)/875x783 -> (bound) (677, 717)/875x783 -> (translate) (676, 717)/875x783 -> (scaled) (676, 717)/875x783
-(1661, 2595)/853x444 -> (sensor) (830, 1297)/426x222 -> (bound) (830, 1297)/426x222 -> (translate) (829, 1297)/426x222 -> (scaled) (829, 1297)/426x222
+(950, 1315)/1750x1620 -> (sensor) (475, 657)/875x810 -> (bound) (475, 657)/875x810 -> (translate) (474, 657)/875x810 -> (scaled) (474, 657)/875x810
+(1318, 2370)/833x656 -> (sensor) (659, 1185)/416x328 -> (bound) (659, 1185)/416x328 -> (translate) (658, 1185)/416x328 -> (scaled) (658, 1185)/416x328
 Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 676,717 875x783
-[1] : vase[85] (0.62) @ 829,1297 426x222
+[0] : potted plant[63] (0.62) @ 474,657 875x810
+[1] : vase[85] (0.62) @ 658,1185 416x328
 Viewfinder frame 8
 Viewfinder frame 9
-(1310, 1449)/1841x1567 -> (sensor) (655, 724)/920x783 -> (bound) (655, 724)/920x783 -> (translate) (654, 724)/920x783 -> (scaled) (654, 724)/920x783
-Number of objects detected: 1
-[0] : potted plant[63] (0.62) @ 654,724 920x783
+(971, 1335)/1750x1579 -> (sensor) (485, 667)/875x789 -> (bound) (485, 667)/875x789 -> (translate) (484, 667)/875x789 -> (scaled) (484, 667)/875x789
+(1318, 2370)/833x656 -> (sensor) (659, 1185)/416x328 -> (bound) (659, 1185)/416x328 -> (translate) (658, 1185)/416x328 -> (scaled) (658, 1185)/416x328
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 484,667 875x789
+[1] : vase[85] (0.62) @ 658,1185 416x328
 Viewfinder frame 10
 Viewfinder frame 11
-(1355, 1449)/1750x1567 -> (sensor) (677, 724)/875x783 -> (bound) (677, 724)/875x783 -> (translate) (676, 724)/875x783 -> (scaled) (676, 724)/875x783
-(1672, 2595)/832x444 -> (sensor) (836, 1297)/416x222 -> (bound) (836, 1297)/416x222 -> (translate) (835, 1297)/416x222 -> (scaled) (835, 1297)/416x222
+(927, 1366)/1796x1579 -> (sensor) (463, 683)/898x789 -> (bound) (463, 683)/898x789 -> (translate) (462, 683)/898x789 -> (scaled) (462, 683)/898x789
+(1318, 2370)/833x656 -> (sensor) (659, 1185)/416x328 -> (bound) (659, 1185)/416x328 -> (translate) (658, 1185)/416x328 -> (scaled) (658, 1185)/416x328
 Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 676,724 875x783
-[1] : vase[85] (0.62) @ 835,1297 416x222
+[0] : potted plant[63] (0.62) @ 462,683 898x789
+[1] : vase[85] (0.62) @ 658,1185 416x328
 Viewfinder frame 12
 Viewfinder frame 13
-(1353, 1449)/1796x1567 -> (sensor) (676, 724)/898x783 -> (bound) (676, 724)/898x783 -> (translate) (675, 724)/898x783 -> (scaled) (675, 724)/898x783
-(1661, 2589)/853x450 -> (sensor) (830, 1294)/426x225 -> (bound) (830, 1294)/426x225 -> (translate) (829, 1294)/426x225 -> (scaled) (829, 1294)/426x225
-Number of objects detected: 2
-[0] : potted plant[63] (0.62) @ 675,724 898x783
-[1] : vase[85] (0.62) @ 829,1294 426x225
+(1318, 2378)/833x656 -> (sensor) (659, 1189)/416x328 -> (bound) (659, 1189)/416x328 -> (translate) (658, 1189)/416x328 -> (scaled) (658, 1189)/416x328
+Number of objects detected: 1
+[0] : vase[85] (0.62) @ 658,1189 416x328
 Viewfinder frame 14
 Viewfinder frame 15
-(1355, 1449)/1750x1567 -> (sensor) (677, 724)/875x783 -> (bound) (677, 724)/875x783 -> (translate) (676, 724)/875x783 -> (scaled) (676, 724)/875x783
-Number of objects detected: 1
-[0] : potted plant[63] (0.62) @ 676,724 875x783
+(950, 1366)/1750x1579 -> (sensor) (475, 683)/875x789 -> (bound) (475, 683)/875x789 -> (translate) (474, 683)/875x789 -> (scaled) (474, 683)/875x789
+(1307, 2378)/854x656 -> (sensor) (653, 1189)/427x328 -> (bound) (653, 1189)/427x328 -> (translate) (652, 1189)/427x328 -> (scaled) (652, 1189)/427x328
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 474,683 875x789
+[1] : vase[85] (0.62) @ 652,1189 427x328
 Viewfinder frame 16
 Viewfinder frame 17
-(1355, 1434)/1750x1567 -> (sensor) (677, 717)/875x783 -> (bound) (677, 717)/875x783 -> (translate) (676, 717)/875x783 -> (scaled) (676, 717)/875x783
-Number of objects detected: 1
-[0] : potted plant[63] (0.62) @ 676,717 875x783
+(927, 1366)/1796x1579 -> (sensor) (463, 683)/898x789 -> (bound) (463, 683)/898x789 -> (translate) (462, 683)/898x789 -> (scaled) (462, 683)/898x789
+(1318, 2378)/833x640 -> (sensor) (659, 1189)/416x320 -> (bound) (659, 1189)/416x320 -> (translate) (658, 1189)/416x320 -> (scaled) (658, 1189)/416x320
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 462,683 898x789
+[1] : vase[85] (0.62) @ 658,1189 416x320
 Viewfinder frame 18
 Viewfinder frame 19
-(1334, 1459)/1735x1554 -> (sensor) (667, 729)/867x777 -> (bound) (667, 729)/867x777 -> (translate) (666, 729)/867x777 -> (scaled) (666, 729)/867x777
-Number of objects detected: 1
-[0] : potted plant[63] (0.68) @ 666,729 867x777
+(927, 1335)/1796x1579 -> (sensor) (463, 667)/898x789 -> (bound) (463, 667)/898x789 -> (translate) (462, 667)/898x789 -> (scaled) (462, 667)/898x789
+(1307, 2370)/854x656 -> (sensor) (653, 1185)/427x328 -> (bound) (653, 1185)/427x328 -> (translate) (652, 1185)/427x328 -> (scaled) (652, 1185)/427x328
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 462,667 898x789
+[1] : vase[85] (0.62) @ 652,1185 427x328
 Viewfinder frame 20
 Viewfinder frame 21
 Closing RPiCam application(frames displayed 21, dropped 0)
