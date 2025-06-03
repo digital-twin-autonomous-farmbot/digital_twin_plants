@@ -174,7 +174,8 @@ for left_img, right_img, bbox_file in zip(left_images, right_images, bbox_files)
         'baseline': float(baseline),
         'plant_height_cm': float(plant_height_cm),
         'top_depth_cm': float(top_depth),
-        'bottom_depth_cm': float(bottom_depth)
+        'bottom_depth_cm': float(bottom_depth),
+        'mean_depth': (float(top_depth) + float(bottom_depth)) / 2.0,
     })
 
 # Ergebnisse als YAML speichern
