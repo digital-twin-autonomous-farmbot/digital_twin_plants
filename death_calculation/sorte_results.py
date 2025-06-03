@@ -1,6 +1,6 @@
 import yaml
 
-with open("tiefenberechnung_results.yaml", "r") as f:
+with open("results/tiefenberechnung_results.yaml", "r") as f:
     results = yaml.safe_load(f)
 
 # Define bins: (label, lower_bound, upper_bound)

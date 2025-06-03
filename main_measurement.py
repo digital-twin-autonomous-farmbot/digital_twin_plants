@@ -9,10 +9,10 @@ def run_script(cmd, shell=False):
 
 if __name__ == "__main__":
     # 1. Bilder aufnehmen
-    run_script(["bash", "take_plant_picture.sh"])
+    run_script(["picture_taking_scripts/take_plant_picture.sh"])
 
     # 2. Tiefenberechnung für alle Bildpaare
-    run_script(["python", "tiefenberechnung_schleife.py"])
+    run_script(["python", "death_calculation/tiefenberechnung_schleife.py"])
 
     # 3. Mittelwert berechnen
-    run_script(["python", "sorte_results.py"])
+    run_script(["python", "death_calculation/sorte_results.py"])

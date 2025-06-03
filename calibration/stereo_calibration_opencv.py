@@ -48,7 +48,7 @@ ret, _, _, _, _, R, T, E, F = cv2.stereoCalibrate(
 )
 
 # Speichere alle Kalibrierdaten in YAML
-fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_WRITE)
+fs = cv2.FileStorage("results/stereo_calibration.yaml", cv2.FILE_STORAGE_WRITE)
 
 fs.write("mtx_l", mtx_l)
 fs.write("dist_l", dist_l)
@@ -60,4 +60,4 @@ fs.write("E", E)
 fs.write("F", F)
 
 fs.release()
-print("✅ Kalibrierdaten gespeichert in stereo_calibration.yaml")
+print("Kalibrierdaten gespeichert in stereo_calibration.yaml")

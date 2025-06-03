@@ -34,7 +34,7 @@ def extract_bbox_from_txt(txt_path, label="potted plant"):
     return None
 
 # Kalibrierdaten aus YAML laden
-fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
+fs = cv2.FileStorage("results/stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
 mtx_l = fs.getNode("mtx_l").mat()
 mtx_r = fs.getNode("mtx_r").mat()
 dist_l = fs.getNode("dist_l").mat()
@@ -50,7 +50,7 @@ baseline = abs(T[0, 0]) / 10.0
 print(f"f = {focal_length:.2f} px, B = {baseline:.2f} cm")
 
 # Load Q matrix
-Q = load_q_matrix("stereo_calibration_analysis.yaml")
+Q = load_q_matrix("results/stereo_calibration_analysis.yaml")
 
 # Find all matching image pairs and bbox files
 left_images = sorted(glob.glob("calib_images/left_plant*.jpg"))
@@ -178,7 +178,7 @@ for left_img, right_img, bbox_file in zip(left_images, right_images, bbox_files)
     })
 
 # Ergebnisse als YAML speichern
-with open("tiefenberechnung_results.yaml", "w") as f:
+with open("results/tiefenberechnung_results.yaml", "w") as f:
     yaml.safe_dump(results, f)
 
 # --- Optionale Visualisierung (GUI) ---

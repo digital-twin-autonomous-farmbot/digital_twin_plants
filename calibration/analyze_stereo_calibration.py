@@ -30,7 +30,7 @@ def save_results_yaml(filename, mtx_l, mtx_r, T, Q):
         yaml.dump(data, f)
 
 def main():
-    yaml_path = "stereo_calibration.yaml"
+    yaml_path = "results/stereo_calibration.yaml"
     # Set your image size (width, height)
     image_size = (640, 480)  # Change as per your camera resolution
 
@@ -43,7 +43,7 @@ def main():
     print("Disparity-to-Depth Mapping Matrix (Q):\n", Q)
 
     # Save results to YAML file
-    save_results_yaml("stereo_calibration_analysis.yaml", mtx_l, mtx_r, T, Q)
+    save_results_yaml("results/stereo_calibration_analysis.yaml", mtx_l, mtx_r, T, Q)
 
 if __name__ == "__main__":
     main()

@@ -76,7 +76,7 @@ stereo = cv2.StereoSGBM_create(
 disparity = stereo.compute(imgL, imgR).astype(np.float32) / 16.0
 
 # Load Q matrix
-Q = load_q_matrix("stereo_calibration_analysis.yaml")
+Q = load_q_matrix("results/stereo_calibration_analysis.yaml")
 
 # Compute 3D points (depth)
 points_3D = compute_depth(disparity, Q)
@@ -184,7 +184,7 @@ print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
 
 # Ergebnisse als YAML speichern
 save_results_yaml(
-    "tiefenberechnung_results.yaml",
+    "results/tiefenberechnung_results.yaml",
     focal_length,
     baseline,
     plant_height_cm,
