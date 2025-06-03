@@ -40,7 +40,7 @@ def extract_bbox_from_txt(txt_path, label="potted plant"):
     return None
 
 # Kalibrierdaten aus YAML laden
-fs = cv2.FileStorage("stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
+fs = cv2.FileStorage("results/stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
 mtx_l = fs.getNode("mtx_l").mat()
 mtx_r = fs.getNode("mtx_r").mat()
 dist_l = fs.getNode("dist_l").mat()
