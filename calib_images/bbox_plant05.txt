@@ -1,0 +1,174 @@
+[5:23:41.418464046] [75283] [1;32m INFO [1;37mCamera [1;34mcamera_manager.cpp:326 [0mlibcamera v0.5.0+59-d83ff0a4
+[5:23:41.429003824] [75287] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
+[5:23:41.449689489] [75287] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@88000/imx708@1a to CFE device /dev/media3 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[5:23:41.449902841] [75287] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:720 [0mlibpisp version v1.2.1 981977ff21f3 29-04-2025 (14:13:50)
+[5:23:41.459387727] [75287] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1179 [0mRegistered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a to CFE device /dev/media4 and ISP device /dev/media2 using PiSP variant BCM2712_D0
+Options:
+    verbose: 2
+    info_text:#%frame (%fps fps) exp %exp ag %ag dg %dg
+    timeout: 1000ms
+    width: 640
+    height: 480
+    output: /dev/null
+    post_process_file: /usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json
+    post_process_libs: 
+    preview: default
+    qt-preview: 0
+    transform: identity
+    roi: all
+    metering: centre
+    exposure: normal
+    ev: 0
+    awb: auto
+    flush: false
+    wrap: 0
+    brightness: 0
+    contrast: 1
+    saturation: 1
+    sharpness: 1
+    framerate: 30
+    denoise: auto
+    viewfinder-width: 0
+    viewfinder-height: 0
+    tuning-file: (libcamera)
+    lores-width: 0
+    lores-height: 0
+    lores-par: 0
+    autofocus-range: normal
+    autofocus-speed: normal
+    autofocus-window: all
+    hdr: off
+    mode: unspecified
+    viewfinder-mode: unspecified
+    metadata: 
+    metadata-format: json
+Made X/EGL preview window
+Opening camera...
+Acquired camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a
+IMX500: Unable to set absolute ROI
+Reading post processing stage "imx500_object_detection"
+
+------------------------------------------------------------------------------------------------------------------
+NOTE: Loading network firmware onto the IMX500 can take several minutes, please do not close down the application.
+------------------------------------------------------------------------------------------------------------------
+
+Reading post processing stage "object_detect_draw_cv"
+Configuring viewfinder...
+Viewfinder size chosen is 2026x1520
+Final viewfinder size is 2026x1520
+Mode selection for 2026:1520:12:P
+    SRGGB10_CSI2P,2028x1520/0 - Score: 1000.99
+    SRGGB10_CSI2P,4056x3040/0 - Score: 1887.99
+Stream configuration adjusted
+[5:23:41.644510784] [75283] [1;32m INFO [1;37mCamera [1;34mcamera.cpp:1205 [0mconfiguring streams: (0) 2026x1520-YUV420 (1) 2028x1520-RGGB_PISP_COMP1
+[5:23:41.646048731] [75287] [1;32m INFO [1;37mRPI [1;34mpisp.cpp:1483 [0mSensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx500@1a - Selected sensor format: 2028x1520-SRGGB10_1X10 - Selected CFE format: 2028x1520-PC1R
+Camera streams configured
+Available controls:
+    AeExposureMode : [0..3]
+    Contrast : [0.000000..32.000000]
+    AeConstraintMode : [0..3]
+    ExposureTimeMode : [0..1]
+    HdrMode : [0..4]
+    AeMeteringMode : [0..3]
+    AeFlickerPeriod : [100..1000000]
+    AnalogueGainMode : [0..1]
+    AnalogueGain : [1.000000..22.260870]
+    StatsOutputEnable : [false..true]
+    Brightness : [-1.000000..1.000000]
+    SyncFrames : [1..1000000]
+    ExposureTime : [101..105904066]
+    AwbEnable : [false..true]
+    ColourGains : [0.000000..32.000000]
+    AwbMode : [0..7]
+    ColourTemperature : [100..100000]
+    Saturation : [0.000000..32.000000]
+    CnnEnableInputTensor : [false..true]
+    AeFlickerMode : [0..1]
+    SyncMode : [0..2]
+    FrameDurationLimits : [33309..105904344]
+    ScalerCrop : [(0, 0)/256x192..(0, 0)/4056x3040]
+    NoiseReductionMode : [0..4]
+    Sharpness : [0.000000..16.000000]
+    AeEnable : [false..true]
+    ExposureValue : [-8.000000..8.000000]
+Buffers allocated and mapped
+Viewfinder setup complete
+Requests created
+Using crop (main) (2, 0)/4052x3040
+Network Firmware Upload: 0% (0/3872 KB)Network Firmware Upload: 0% (0/3872 KB)Network Firmware Upload: 26% (1024/3872 KB)Network Firmware Upload: 26% (1024/3872 KB)Network Firmware Upload: 52% (2048/3872 KB)Network Firmware Upload: 79% (3072/3872 KB)Camera started!
+Network Firmware Upload: 100% (3872/3872 KB)
+(1501, 1006)/1517x1634 -> (sensor) (750, 503)/758x817 -> (bound) (750, 503)/758x817 -> (translate) (749, 503)/758x817 -> (scaled) (749, 503)/758x817
+(1711, 1961)/733x804 -> (sensor) (855, 980)/366x402 -> (bound) (855, 980)/366x402 -> (translate) (854, 980)/366x402 -> (scaled) (854, 980)/366x402
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 749,503 758x817
+[1] : vase[85] (0.62) @ 854,980 366x402
+Viewfinder frame 0
+Viewfinder frame 1
+(1501, 1006)/1517x1634 -> (sensor) (750, 503)/758x817 -> (bound) (750, 503)/758x817 -> (translate) (749, 503)/758x817 -> (scaled) (749, 503)/758x817
+(1731, 1964)/715x783 -> (sensor) (865, 982)/357x391 -> (bound) (865, 982)/357x391 -> (translate) (864, 982)/357x391 -> (scaled) (864, 982)/357x391
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 749,503 758x817
+[1] : vase[85] (0.62) @ 864,982 357x391
+Viewfinder frame 2
+Viewfinder frame 3
+(1412, 899)/1636x1764 -> (sensor) (706, 449)/818x882 -> (bound) (706, 449)/818x882 -> (translate) (705, 449)/818x882 -> (scaled) (705, 449)/818x882
+(1722, 1956)/733x783 -> (sensor) (861, 978)/366x391 -> (bound) (861, 978)/366x391 -> (translate) (860, 978)/366x391 -> (scaled) (860, 978)/366x391
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 705,449 818x882
+[1] : vase[85] (0.62) @ 860,978 366x391
+Viewfinder frame 4
+Viewfinder frame 5
+(1418, 899)/1596x1764 -> (sensor) (709, 449)/798x882 -> (bound) (709, 449)/798x882 -> (translate) (708, 449)/798x882 -> (scaled) (708, 449)/798x882
+(1720, 1961)/715x804 -> (sensor) (860, 980)/357x402 -> (bound) (860, 980)/357x402 -> (translate) (859, 980)/357x402 -> (scaled) (859, 980)/357x402
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 708,449 798x882
+[1] : vase[85] (0.62) @ 859,980 357x402
+Viewfinder frame 6
+Viewfinder frame 7
+(1722, 1954)/733x804 -> (sensor) (861, 977)/366x402 -> (bound) (861, 977)/366x402 -> (translate) (860, 977)/366x402 -> (scaled) (860, 977)/366x402
+Number of objects detected: 1
+[0] : vase[85] (0.62) @ 860,977 366x402
+Viewfinder frame 8
+Viewfinder frame 9
+(1711, 1961)/733x804 -> (sensor) (855, 980)/366x402 -> (bound) (855, 980)/366x402 -> (translate) (854, 980)/366x402 -> (scaled) (854, 980)/366x402
+Number of objects detected: 1
+[0] : vase[85] (0.62) @ 854,980 366x402
+Viewfinder frame 10
+Viewfinder frame 11
+(1412, 921)/1636x1764 -> (sensor) (706, 460)/818x882 -> (bound) (706, 460)/818x882 -> (translate) (705, 460)/818x882 -> (scaled) (705, 460)/818x882
+(1722, 1964)/733x783 -> (sensor) (861, 982)/366x391 -> (bound) (861, 982)/366x391 -> (translate) (860, 982)/366x391 -> (scaled) (860, 982)/366x391
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 705,460 818x882
+[1] : vase[85] (0.62) @ 860,982 366x391
+Viewfinder frame 12
+Viewfinder frame 13
+(1427, 899)/1636x1764 -> (sensor) (713, 449)/818x882 -> (bound) (713, 449)/818x882 -> (translate) (712, 449)/818x882 -> (scaled) (712, 449)/818x882
+(1722, 1946)/733x804 -> (sensor) (861, 973)/366x402 -> (bound) (861, 973)/366x402 -> (translate) (860, 973)/366x402 -> (scaled) (860, 973)/366x402
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 712,449 818x882
+[1] : vase[85] (0.62) @ 860,973 366x402
+Viewfinder frame 14
+Viewfinder frame 15
+(1711, 1956)/733x783 -> (sensor) (855, 978)/366x391 -> (bound) (855, 978)/366x391 -> (translate) (854, 978)/366x391 -> (scaled) (854, 978)/366x391
+Number of objects detected: 1
+[0] : vase[85] (0.62) @ 854,978 366x391
+Viewfinder frame 16
+Viewfinder frame 17
+(1433, 921)/1596x1764 -> (sensor) (716, 460)/798x882 -> (bound) (716, 460)/798x882 -> (translate) (715, 460)/798x882 -> (scaled) (715, 460)/798x882
+(1722, 1965)/733x764 -> (sensor) (861, 982)/366x382 -> (bound) (861, 982)/366x382 -> (translate) (860, 982)/366x382 -> (scaled) (860, 982)/366x382
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 715,460 798x882
+[1] : vase[85] (0.62) @ 860,982 366x382
+Viewfinder frame 18
+Viewfinder frame 19
+(1412, 899)/1636x1764 -> (sensor) (706, 449)/818x882 -> (bound) (706, 449)/818x882 -> (translate) (705, 449)/818x882 -> (scaled) (705, 449)/818x882
+(1711, 1961)/733x804 -> (sensor) (855, 980)/366x402 -> (bound) (855, 980)/366x402 -> (translate) (854, 980)/366x402 -> (scaled) (854, 980)/366x402
+Number of objects detected: 2
+[0] : potted plant[63] (0.62) @ 705,449 818x882
+[1] : vase[85] (0.62) @ 854,980 366x402
+Viewfinder frame 20
+Viewfinder frame 21
+Closing RPiCam application(frames displayed 21, dropped 0)
+Camera stopped!
+Tearing down requests, buffers and configuration
+Camera closed

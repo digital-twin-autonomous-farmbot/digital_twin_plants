@@ -96,7 +96,8 @@ if bbox:
     w = int(w * scale_x)
     h = int(h * scale_y)
 
-    # Bounding Box auf Bildgrenzen beschränken
+    # Bounding Box auf Bildgrenzen beschränke
+    # nicht skalieren sondern beschneiden(crop)
     x = max(0, min(x, width-1))
     y = max(0, min(y, height-1))
     w = min(w, width - x)
