@@ -24,16 +24,19 @@ def save_results_yaml(filename, focal_length, baseline, plant_height_cm, top_dep
     with open(filename, "w") as f:
         yaml.dump(data, f)
 
-def extract_bbox_from_txt(txt_path):
+def extract_bbox_from_txt(txt_path, label="potted plant"):
     with open(txt_path, "r") as f:
         for line in f:
-            match = re.search(r'@ (\d+),(\d+) (\d+)x(\d+)', line)
+            # Match lines like: [0] : potted plant[63] (0.62) @ 655,707 898x803
+            match = re.search(r'\[\d+\] : ([\w\s]+)\[\d+\].*@ (\d+),(\d+) (\d+)x(\d+)', line)
             if match:
-                x = int(match.group(1))
-                y = int(match.group(2))
-                w = int(match.group(3))
-                h = int(match.group(4))
-                return x, y, w, h
+                obj_label = match.group(1).strip()
+                if obj_label == label:
+                    x = int(match.group(2))
+                    y = int(match.group(3))
+                    w = int(match.group(4))
+                    h = int(match.group(5))
+                    return x, y, w, h
     return None
 
 # Kalibrierdaten aus YAML laden
