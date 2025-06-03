@@ -182,6 +182,9 @@ else:
 
 print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
 
+# mean top_depth und bottom_depth in cm
+mean_depth = (top_depth + bottom_depth) / 2.0
+
 # Ergebnisse als YAML speichern
 save_results_yaml(
     "results/tiefenberechnung_results.yaml",
@@ -189,7 +192,8 @@ save_results_yaml(
     baseline,
     plant_height_cm,
     top_depth,
-    bottom_depth
+    bottom_depth,
+    mean_depth
 )
 
 # Optionale Visualisierung

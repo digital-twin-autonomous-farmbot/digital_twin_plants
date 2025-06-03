@@ -12,6 +12,7 @@ bins = [
     (">= 50 cm", 50, float("inf")),
 ]
 
+
 # Initialize counters
 counts = {label: 0 for (label, _, _) in bins}
 

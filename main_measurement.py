@@ -11,8 +11,11 @@ if __name__ == "__main__":
     # 1. Bilder aufnehmen
     run_script(["picture_taking_scripts/take_plant_picture.sh"])
 
-    # 2. Tiefenberechnung für alle Bildpaare
+    # 2. Pflanzenarten identifizieren
+    run_script(["python", "plant_detection/batch_identify_plants.py"])
+
+    # 3. Tiefenberechnung für alle Bildpaare
     run_script(["python", "death_calculation/tiefenberechnung_schleife.py"])
 
-    # 3. Mittelwert berechnen
+    # 4. Mittelwert berechnen
     run_script(["python", "death_calculation/sorte_results.py"])
