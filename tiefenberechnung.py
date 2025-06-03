@@ -120,10 +120,15 @@ if bbox:
     else:
         mean_disp = np.median(disparity[np.isfinite(disparity) & (disparity > 0)])
 
-    # Reprojiziere die BBox-Ecken in 3D (linkes Bild)
-    pts_3d = cv2.reprojectImageTo3D(
-        mean_disp * np.ones((4, 1), dtype=np.float32), Q
-    )
+    # Reprojiziere die BBox-Ecken in 3D (linkes Bild) - manuell für jede Ecke
+    pts_3d = []
+    for cx, cy in bbox_corners:
+        Z = focal_length * baseline / mean_disp
+        X = (cx - mtx_l[0,2]) * Z / focal_length
+        Y = (cy - mtx_l[1,2]) * Z / focal_length
+        pts_3d.append([X, Y, Z])
+    pts_3d = np.array(pts_3d, dtype=np.float32)
+
     # Die 2D-Pixelkoordinaten der BBox-Ecken im linken Bild
     pts_2d_left = bbox_corners.reshape(-1, 1, 2).astype(np.float32)
     # Undistort
