@@ -168,7 +168,7 @@ for left_img, right_img, bbox_file in zip(left_images, right_images, bbox_files)
     print(f"Geschätzte Pflanzenhöhe: {plant_height_cm:.2f} cm")
 
     results.append({
-        'image_pair': (os.path.basename(left_img), os.path.basename(right_img)),
+        'image_pair': [os.path.basename(left_img), os.path.basename(right_img)],
         'bbox_file': os.path.basename(bbox_file),
         'focal_length_px': float(focal_length),
         'baseline': float(baseline),
@@ -178,7 +178,8 @@ for left_img, right_img, bbox_file in zip(left_images, right_images, bbox_files)
     })
 
 # Ergebnisse als YAML speichern
-save_results_yaml("tiefenberechnung_results.yaml", results)
+with open("results/tiefenberechnung_results.yaml", "w") as f:
+    yaml.safe_dump(results, f)
 
 # --- Optionale Visualisierung (GUI) ---
 # To activate, uncomment the following block:
