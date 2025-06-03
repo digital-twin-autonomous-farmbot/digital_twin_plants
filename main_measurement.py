@@ -15,4 +15,4 @@ if __name__ == "__main__":
     run_script(["python", "tiefenberechnung_schleife.py"])
 
     # 3. Mittelwert berechnen
-    run_script(["python", "calculate_mean_height.py"])
+    run_script(["python", "sorte_results.py"])
