@@ -178,7 +178,7 @@ for left_img, right_img, bbox_file in zip(left_images, right_images, bbox_files)
     })
 
 # Ergebnisse als YAML speichern
-with open("results/tiefenberechnung_results.yaml", "w") as f:
+with open("tiefenberechnung_results.yaml", "w") as f:
     yaml.safe_dump(results, f)
 
 # --- Optionale Visualisierung (GUI) ---
