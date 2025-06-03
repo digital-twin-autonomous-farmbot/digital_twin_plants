@@ -3,7 +3,7 @@
 OUTDIR="calib_images"
 mkdir -p $OUTDIR
 
-for i in $(seq -f "%02g" 1 2); do
+for i in $(seq -f "%02g" 1 5); do
     echo "Aufnahme $i"
 
     # Capture with normal camera (left)
