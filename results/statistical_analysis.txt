@@ -1,0 +1,43 @@
+Statistical Analysis Results
+==========================
+
+Correlation Analysis:
+--------------------
+Method: Pearson's product-moment correlation
+
+Correlation coefficient: 1 
+95% Confidence Interval: 1 to 1 
+p-value: 0 
+
+Interpretation:
+-------------
+There is a significant correlation between plant height and mean depth
+The correlation is positive, indicating that plant height tends to increase with depth
+
+Regression Analysis:
+-------------------
+Linear model summary:
+
+Call:
+lm(formula = plant_height ~ mean_depth, data = df_clean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.4790 -1.4011 -0.6118  1.8335  6.5968 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -2.554e+02  1.946e+00  -131.3   <2e-16 ***
+mean_depth   1.869e+00  6.422e-03   291.0   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.54 on 27 degrees of freedom
+Multiple R-squared:  0.9997,	Adjusted R-squared:  0.9997 
+F-statistic: 8.468e+04 on 1 and 27 DF,  p-value: < 2.2e-16
+
+
+Model diagnostics:
+R-squared: 1 
+Adjusted R-squared: 1 
+F-statistic p-value: 84677 

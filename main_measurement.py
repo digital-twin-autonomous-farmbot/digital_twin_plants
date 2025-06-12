@@ -18,4 +18,4 @@ if __name__ == "__main__":
     run_script(["python", "death_calculation/tiefenberechnung_schleife.py"])
 
     # 4. Mittelwert berechnen
-    run_script(["python", "death_calculation/sorte_results.py"])
+    run_script(["R", "analyze_plant_measurements.R"])
