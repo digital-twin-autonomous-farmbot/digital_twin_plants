@@ -1,0 +1,1 @@
+./take_plant_picture.sh: line 18: rpicam-hello: command not found
