@@ -7,39 +7,84 @@ import re
 from collections import defaultdict
 import sys
 import os
+import pymongo
+from PIL import Image  # Import the PIL library
 
 # Add parent directory to Python path to find the module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from death_calculation.tiefenberechnung_schleife import process_plant_data
 
-def fetch_latest_data(mongo_uri="mongodb://100.72.230.30:27017"):
-    client = MongoClient(mongo_uri)
-    db = client["plant_images"]
-    fs = gridfs.GridFS(db)
+def fetch_latest_data():
+    """
+    Fetches the latest image data and bounding box descriptions from MongoDB.
+    """
+    try:
+        client = pymongo.MongoClient("mongodb://100.72.230.30:27017/")
+        db = client["RoboGardener"]
+        image_data = db["ImageData"]
 
-    pattern = r'(left|right|bbox)_plant_(\d{8}_\d{6})\.(jpg|txt)'
-    files_by_ts = defaultdict(dict)
+        # Find the latest document
+        latest_document = image_data.find_one(sort=[('_id', pymongo.DESCENDING)])
 
-    for f in fs.find():
-        match = re.match(pattern, f.filename)
-        if match:
-            kind, ts, _ = match.groups()
-            files_by_ts[ts][kind] = f.filename
+        if latest_document:
+            left_img = latest_document["left_image"]
+            right_img = latest_document["right_image"]
+            bbox_text = latest_document["bounding_box_description"]
+            return left_img, right_img, bbox_text
+        else:
+            print("No data found in MongoDB.")
+            return None, None, None
+    except pymongo.errors.ConnectionFailure as e:
+        print(f"Could not connect to MongoDB: {e}")
+        return None, None, None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None, None, None
 
-    sorted_ts = sorted(ts for ts in files_by_ts if {'left', 'right', 'bbox'}.issubset(files_by_ts[ts]))
-    latest_ts = sorted_ts[-1]
-    latest_files = files_by_ts[latest_ts]
+def fetch_latest_data_from_local(image_folder="calib_images"):
+    """
+    Fetches image data and bounding box descriptions from local files in the specified folder.
+    This function is used as a fallback when MongoDB is not available.
+    """
+    try:
+        # Get a list of image files in the folder
+        image_files = [f for f in os.listdir(image_folder) if f.endswith((".jpg", ".jpeg", ".png")) and "left" in f]
+        if not image_files:
+            print(f"No left images found in {image_folder}")
+            return None, None, None
 
-    def load_bytes(name):
-        return fs.find_one({"filename": name}).read()
+        # Choose the first left image
+        left_image_name = image_files[0]
+        left_image_path = os.path.join(image_folder, left_image_name)
+        right_image_name = left_image_name.replace("left", "right")
+        right_image_path = os.path.join(image_folder, right_image_name)
+        bbox_file_name = left_image_name.replace("left_plant", "bbox_plant").replace(".jpg", ".txt")
+        bbox_file_path = os.path.join(image_folder, bbox_file_name)
 
-    left_img = cv2.imdecode(np.frombuffer(load_bytes(latest_files['left']), np.uint8), cv2.IMREAD_COLOR)
-    right_img = cv2.imdecode(np.frombuffer(load_bytes(latest_files['right']), np.uint8), cv2.IMREAD_COLOR)
-    
-    # Check if bbox file exists
-    if 'bbox' in latest_files:
-        bbox_text = load_bytes(latest_files['bbox']).decode("utf-8")
-    else:
-        bbox_text = None  # Or some default value
+        # Open the images using PIL
+        try:
+            left_img = Image.open(left_image_path)
+            right_img = Image.open(right_image_path)
 
-    return left_img, right_img, bbox_text
+            # Convert images to bytes
+            with open(left_image_path, "rb") as f:
+                left_img_bytes = f.read()
+            with open(right_image_path, "rb") as f:
+                right_img_bytes = f.read()
+        except FileNotFoundError:
+            print(f"Image file not found: {left_image_path} or {right_image_path}")
+            return None, None, None
+
+        # Read the bounding box description from the file
+        try:
+            with open(bbox_file_path, "r") as f:
+                bbox_text = f.read()
+        except FileNotFoundError:
+            print(f"Bounding box file not found: {bbox_file_path}")
+            return None, None, None
+
+        return left_img_bytes, right_img_bytes, bbox_text
+
+    except Exception as e:
+        print(f"An error occurred while reading local data: {e}")
+        return None, None, None

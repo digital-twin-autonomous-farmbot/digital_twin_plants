@@ -1,8 +1,120 @@
 
-=== Results for left_plant_20250612_171718.jpg ===
-
+=== Results for left_plant1.jpg ===
+Error: Image file not found: calib_images\left_plant1.jpg
 ============================================================
 
-=== Results for right_plant_20250612_171718.jpg ===
+=== Results for right_plant1.jpg ===
+Error: Image file not found: calib_images\right_plant1.jpg
+============================================================
 
+=== Results for left_plant2.jpg ===
+Error: Image file not found: calib_images\left_plant2.jpg
+============================================================
+
+=== Results for right_plant2.jpg ===
+Error: Image file not found: calib_images\right_plant2.jpg
+============================================================
+
+=== Results for left_plant3.jpg ===
+Error: Image file not found: calib_images\left_plant3.jpg
+============================================================
+
+=== Results for right_plant3.jpg ===
+Error: Image file not found: calib_images\right_plant3.jpg
+============================================================
+
+=== Results for left_plant4.jpg ===
+Error: Image file not found: calib_images\left_plant4.jpg
+============================================================
+
+=== Results for right_plant4.jpg ===
+Error: Image file not found: calib_images\right_plant4.jpg
+============================================================
+
+=== Results for left_plant5.jpg ===
+Error: Image file not found: calib_images\left_plant5.jpg
+============================================================
+
+=== Results for right_plant5.jpg ===
+Error: Image file not found: calib_images\right_plant5.jpg
+============================================================
+
+=== Results for left_plant6.jpg ===
+Error: Image file not found: calib_images\left_plant6.jpg
+============================================================
+
+=== Results for right_plant6.jpg ===
+Error: Image file not found: calib_images\right_plant6.jpg
+============================================================
+
+=== Results for left_plant7.jpg ===
+Error: Image file not found: calib_images\left_plant7.jpg
+============================================================
+
+=== Results for right_plant7.jpg ===
+Error: Image file not found: calib_images\right_plant7.jpg
+============================================================
+
+=== Results for left_plant8.jpg ===
+Error: Image file not found: calib_images\left_plant8.jpg
+============================================================
+
+=== Results for right_plant8.jpg ===
+Error: Image file not found: calib_images\right_plant8.jpg
+============================================================
+
+=== Results for left_plant9.jpg ===
+Error: Image file not found: calib_images\left_plant9.jpg
+============================================================
+
+=== Results for right_plant9.jpg ===
+Error: Image file not found: calib_images\right_plant9.jpg
+============================================================
+
+=== Results for left_plant10.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant10.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for left_plant11.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant11.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for left_plant12.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant12.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for left_plant13.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant13.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for left_plant14.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant14.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for left_plant15.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
+============================================================
+
+=== Results for right_plant15.jpg ===
+Error: API request failed: 429 Client Error: Too Many Requests for url: https://api.plant.id/v2/identify
 ============================================================
