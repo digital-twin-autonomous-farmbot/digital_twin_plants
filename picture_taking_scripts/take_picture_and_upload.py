@@ -78,15 +78,19 @@ def main():
     # Run bounding box AI
     bbox_text = run_bounding_box(1)
 
-    # Add this debug code where you read the bbox file
-    content = bbox_text
-    print("File content before upload:", content)
-    print("File size:", len(content), "bytes")
+    # Save output to a file
+    bbox_filename = f"/tmp/bbox_output_{timestamp}.txt"
+    with open(bbox_filename, 'w') as f:
+        f.write(bbox_text)
+
+    # Read it back into a variable
+    with open(bbox_filename, 'r') as f:
+        content = f.read()
 
     # Upload all files
     upload_file(left_image, f"left_plant_{timestamp}.jpg", "image/jpeg")
     upload_file(right_image, f"right_plant_{timestamp}.jpg", "image/jpeg")
-    upload_file(bbox_text.encode("utf-8"), f"bbox_plant_{timestamp}.txt", "text/plain")
+    upload_file(content.encode("utf-8"), f"bbox_plant_{timestamp}.txt", "text/plain")
 
     # MongoDB document
     document = {
@@ -99,8 +103,8 @@ def main():
     # Before inserting into MongoDB
     print("Document to be inserted:", document)
     # Check if bbox content is present in the document
-    if "bbox_content" in document:
-        print("bbox content length:", len(document["bbox_content"]))
+    if "bbox_data" in document:
+        print("bbox content length:", len(document["bbox_data"]))
 
     # Add logging for the MongoDB operation
     result = collection.insert_one(document)
