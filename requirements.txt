@@ -1,23 +1,26 @@
-Brotli @ file:///D:/bld/brotli-split_1749229870877/work
-certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1749972191589/work/certifi
-cffi @ file:///D:/bld/cffi_1725560649097/work
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1746214863626/work
-dnspython @ file:///home/conda/feedstock_root/build_artifacts/dnspython_1733256735222/work
-h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1738578511449/work
-hpack @ file:///home/conda/feedstock_root/build_artifacts/hpack_1737618293087/work
-hyperframe @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1737618333194/work
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1733211830134/work
-numpy @ file:///D:/bld/numpy_1747544591878/work/dist/numpy-2.2.6-cp310-cp310-win_amd64.whl#sha256=af66576ce916c795ffa81be9620c8138a3fda6e1713b2bf7775a630e47eca3a8
+Brotli==1.1.0
+certifi==2025.6.15
+cffi==1.17.1
+charset-normalizer==3.4.2
+dnspython==2.7.0
+h2==4.2.0
+hpack==4.1.0
+hyperframe==6.1.0
+idna==3.10
+numpy==2.2.6
 opencv-python==4.11.0
 opencv-python-headless==4.11.0
-pillow @ file:///D:/bld/pillow_1746646245659/work
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pycparser_1733195786/work
-pymongo @ file:///D:/bld/pymongo_1749067811965/work
-PySocks @ file:///D:/bld/pysocks_1733217287171/work
-python-dotenv @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_python-dotenv_1742948348/work
-PyYAML @ file:///D:/bld/pyyaml_1737454681229/work
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1749498106507/work
-sniffio @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1733244044561/work
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1744323578849/work
-win_inet_pton @ file:///D:/bld/win_inet_pton_1733130564612/work
+pillow==11.2.1
+pip==25.1.1
+pycparser==2.22
+pymongo==4.13.0
+PySocks==1.7.1
+python-dotenv==1.1.0
+PyYAML==6.0.2
+requests==2.32.4
+setuptools==80.9.0
+sniffio==1.3.1
+urllib3==2.4.0
+wheel==0.45.1
+win_inet_pton==1.1.0
 zstandard==0.23.0
