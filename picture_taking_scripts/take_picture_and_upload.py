@@ -79,10 +79,9 @@ def main():
     bbox_text = run_bounding_box(1)
 
     # Add this debug code where you read the bbox file
-    with open(bbox_text, 'r') as f:
-        content = f.read()
-        print("File content before upload:", content)
-        print("File size:", len(content), "bytes")
+    content = bbox_text
+    print("File content before upload:", content)
+    print("File size:", len(content), "bytes")
 
     # Upload all files
     upload_file(left_image, f"left_plant_{timestamp}.jpg", "image/jpeg")
