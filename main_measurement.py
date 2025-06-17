@@ -1,5 +1,5 @@
 import os
-from collect_data.collect_data import fetch_latest_data, fetch_latest_data_from_local  # Import the local data function
+from collect_data.collect_data import fetch_latest_data  # Import the local data function
 from death_calculation.tiefenberechnung_schleife import process_plant_data
 from plant_detection.request_plant_species import PlantIdentifier
 from dotenv import load_dotenv
@@ -18,16 +18,6 @@ def main():
     # 1. Fetch latest image data from MongoDB
     print("\nFetching latest images...")
     left_img, right_img, bbox_text = fetch_latest_data()
-
-    # If MongoDB is unavailable, use local data
-    if left_img is None or right_img is None or bbox_text is None:
-        print("Falling back to local data...")
-        left_img, right_img, bbox_text = fetch_latest_data_from_local()
-
-        # Check if local data is also unavailable
-        if left_img is None or right_img is None or bbox_text is None:
-            print("No data available from MongoDB or local files. Exiting.")
-            return  # Exit the function if no data is available
 
     # 2. Calculate plant depth and height
     print("\nCalculating plant measurements...")
