@@ -1,11 +1,27 @@
 import subprocess
 import requests
 import datetime
+from pymongo import MongoClient
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('pymongo').setLevel(logging.DEBUG)
 
 # Configuration
 IMAGE_API_ENDPOINT = "http://100.72.230.30:6000/upload"  # Change to match your image_api IP
 IMG_WIDTH = 640
 IMG_HEIGHT = 480
+
+# MongoDB configuration
+MONGO_URI = "mongodb://localhost:27017/"
+DB_NAME = "plant_images"
+COLLECTION_NAME = "images"
+
+# Initialize MongoDB client
+client = MongoClient(MONGO_URI)
+db = client[DB_NAME]
+collection = db[COLLECTION_NAME]
 
 def capture_image(camera_id: int, filename: str) -> bytes:
     """Capture image from camera and return it as bytes"""
@@ -62,10 +78,35 @@ def main():
     # Run bounding box AI
     bbox_text = run_bounding_box(1)
 
+    # Add this debug code where you read the bbox file
+    with open(bbox_text, 'r') as f:
+        content = f.read()
+        print("File content before upload:", content)
+        print("File size:", len(content), "bytes")
+
     # Upload all files
     upload_file(left_image, f"left_plant_{timestamp}.jpg", "image/jpeg")
     upload_file(right_image, f"right_plant_{timestamp}.jpg", "image/jpeg")
     upload_file(bbox_text.encode("utf-8"), f"bbox_plant_{timestamp}.txt", "text/plain")
+
+    # MongoDB document
+    document = {
+        "timestamp": timestamp,
+        "left_image": f"left_plant_{timestamp}.jpg",
+        "right_image": f"right_plant_{timestamp}.jpg",
+        "bbox_data": content
+    }
+
+    # Before inserting into MongoDB
+    print("Document to be inserted:", document)
+    # Check if bbox content is present in the document
+    if "bbox_content" in document:
+        print("bbox content length:", len(document["bbox_content"]))
+
+    # Add logging for the MongoDB operation
+    result = collection.insert_one(document)
+    print("MongoDB insert result:", result.inserted_id)
+    print("Inserted document:", collection.find_one({"_id": result.inserted_id}))
 
 if __name__ == "__main__":
     main()

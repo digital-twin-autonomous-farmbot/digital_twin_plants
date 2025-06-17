@@ -1,90 +1,122 @@
 # collect_data.py
-from pymongo import MongoClient
-import gridfs
-import numpy as np
-import cv2
-import re
-from collections import defaultdict
-import sys
 import os
-import pymongo
-from PIL import Image  # Import the PIL library
+import sys
+import logging
+from pymongo import MongoClient
+from gridfs import GridFS
+from datetime import datetime
+from dotenv import load_dotenv
 
 # Add parent directory to Python path to find the module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from death_calculation.tiefenberechnung_schleife import process_plant_data
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def connect_to_mongodb():
+    """Establish a connection to the MongoDB database."""
+    try:
+        client = MongoClient(os.getenv("MONGODB_URI"))
+        logger.info("Connected to MongoDB")
+        return client
+    except Exception as e:
+        logger.error(f"Error connecting to MongoDB: {str(e)}")
+        return None
+
 def fetch_latest_data():
-    """
-    Fetches the latest image data and bounding box descriptions from MongoDB.
-    """
-    try:
-        client = pymongo.MongoClient("mongodb://100.72.230.30:27017/")
-        db = client["RoboGardener"]
-        image_data = db["ImageData"]
-
-        # Find the latest document
-        latest_document = image_data.find_one(sort=[('_id', pymongo.DESCENDING)])
-
-        if latest_document:
-            left_img = latest_document["left_image"]
-            right_img = latest_document["right_image"]
-            bbox_text = latest_document["bounding_box_description"]
-            return left_img, right_img, bbox_text
-        else:
-            print("No data found in MongoDB.")
-            return None, None, None
-    except pymongo.errors.ConnectionFailure as e:
-        print(f"Could not connect to MongoDB: {e}")
+    """Fetches the latest image data and bounding box descriptions from MongoDB using GridFS."""
+    client = connect_to_mongodb()
+    if not client:
+        logger.error("MongoDB connection failed")
         return None, None, None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None, None, None
-
-def fetch_latest_data_from_local(image_folder="calib_images"):
-    """
-    Fetches image data and bounding box descriptions from local files in the specified folder.
-    This function is used as a fallback when MongoDB is not available.
-    """
+        
     try:
-        # Get a list of image files in the folder
-        image_files = [f for f in os.listdir(image_folder) if f.endswith((".jpg", ".jpeg", ".png")) and "left" in f]
-        if not image_files:
-            print(f"No left images found in {image_folder}")
+        db = client.plant_images
+        fs = GridFS(db)
+
+        # Find latest files with detailed error checking
+        latest_left = fs.find_one({"filename": {"$regex": "^left_plant_.*\.jpg$"}}, sort=[("uploadDate", -1)])
+        if not latest_left:
+            logger.error("Left image not found in GridFS")
             return None, None, None
 
-        # Choose the first left image
-        left_image_name = image_files[0]
-        left_image_path = os.path.join(image_folder, left_image_name)
-        right_image_name = left_image_name.replace("left", "right")
-        right_image_path = os.path.join(image_folder, right_image_name)
-        bbox_file_name = left_image_name.replace("left_plant", "bbox_plant").replace(".jpg", ".txt")
-        bbox_file_path = os.path.join(image_folder, bbox_file_name)
+        latest_right = fs.find_one({"filename": {"$regex": "^right_plant_.*\.jpg$"}}, sort=[("uploadDate", -1)])
+        if not latest_right:
+            logger.error("Right image not found in GridFS")
+            return None, None, None
 
-        # Open the images using PIL
+        latest_bbox = fs.find_one({"filename": {"$regex": "^bbox_plant_.*\.txt$"}}, sort=[("uploadDate", -1)])
+        if not latest_bbox:
+            logger.error("Bbox file not found in GridFS")
+            return None, None, None
+
+        logger.info(f"Found files:")
+        logger.info(f"Left image: {latest_left.filename}")
+        logger.info(f"Right image: {latest_right.filename}")
+        logger.info(f"Bbox file: {latest_bbox.filename}")
+
         try:
-            left_img = Image.open(left_image_path)
-            right_img = Image.open(right_image_path)
-
-            # Convert images to bytes
-            with open(left_image_path, "rb") as f:
-                left_img_bytes = f.read()
-            with open(right_image_path, "rb") as f:
-                right_img_bytes = f.read()
-        except FileNotFoundError:
-            print(f"Image file not found: {left_image_path} or {right_image_path}")
+            left_data = latest_left.read()
+            right_data = latest_right.read()
+            bbox_data = latest_bbox.read().decode('utf-8')
+            
+            logger.info(f"Successfully read - Left: {len(left_data)} bytes, "
+                       f"Right: {len(right_data)} bytes, "
+                       f"Bbox: {len(bbox_data)} chars")
+                       
+            return left_data, right_data, bbox_data
+            
+        except Exception as e:
+            logger.error(f"Error reading file data: {str(e)}")
             return None, None, None
-
-        # Read the bounding box description from the file
-        try:
-            with open(bbox_file_path, "r") as f:
-                bbox_text = f.read()
-        except FileNotFoundError:
-            print(f"Bounding box file not found: {bbox_file_path}")
-            return None, None, None
-
-        return left_img_bytes, right_img_bytes, bbox_text
 
     except Exception as e:
-        print(f"An error occurred while reading local data: {e}")
+        logger.error(f"Error accessing MongoDB: {str(e)}")
         return None, None, None
+    finally:
+        client.close()
+
+def store_plant_data(left_image_data, right_image_data, bbox_text):
+    """Store plant data in MongoDB using GridFS with timestamped filenames"""
+    client = connect_to_mongodb()
+    if not client:
+        return False
+        
+    try:
+        db = client.plant_images
+        fs = GridFS(db)
+        
+        # Generate timestamp for filenames
+        timestamp = datetime.now().strftime("%Y.%m.%d_%H:%M:%S")
+        
+        # Store images in GridFS with timestamped filenames
+        left_id = fs.put(
+            left_image_data, 
+            filename=f'left_plant_{timestamp}.jpg'
+        )
+        right_id = fs.put(
+            right_image_data, 
+            filename=f'right_plant_{timestamp}.jpg'
+        )
+        bbox_id = fs.put(
+            bbox_text.encode('utf-8'), 
+            filename=f'bbox_plant_{timestamp}.txt'
+        )
+        
+        logger.info(f"Stored files with timestamp {timestamp}")
+        logger.info(f"Left image ID: {left_id}")
+        logger.info(f"Right image ID: {right_id}")
+        logger.info(f"Bbox file ID: {bbox_id}")
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error storing data: {str(e)}")
+        return False
+    finally:
+        client.close()
