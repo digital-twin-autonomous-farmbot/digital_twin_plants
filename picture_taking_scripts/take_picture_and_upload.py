@@ -38,23 +38,28 @@ def capture_image(camera_id: int, filename: str) -> bytes:
     )
     return result.stdout
 
-def run_bounding_box(camera_id: int) -> str:
-    """Run rpicam-hello with AI model and return bounding box output as string"""
+def run_bounding_box():
+    command = [
+        "rpicam-hello",
+        "--camera", "1",
+        "--timeout", "1s",
+        "--post-process-file", "/usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json",
+        "--width", "640",
+        "--height", "480",
+        "--output", "/dev/null",
+        "--verbose"
+    ]
+
     result = subprocess.run(
-        [
-            "rpicam-hello",
-            "--camera", str(camera_id),
-            "--timeout", "1s",
-            "--post-process-file", "/usr/share/rpi-camera-assets/imx500_mobilenet_ssd.json",
-            "--width", str(IMG_WIDTH),
-            "--height", str(IMG_HEIGHT),
-            "--output", "/dev/null",
-            "--verbose"
-        ],
-        capture_output=True,
-        text=True,
-        check=True
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,  # Capture both stdout and stderr
+        text=True  # Output will be a string, not bytes
     )
+
+    if result.returncode != 0:
+        print("[ERROR] Bounding box process failed!")
+
     return result.stdout
 
 def upload_file(data: bytes, filename: str, content_type: str = "application/octet-stream"):
@@ -76,7 +81,7 @@ def main():
     right_image = capture_image(1, f"right_plant_{timestamp}.jpg")
 
     # Run bounding box AI
-    bbox_text = run_bounding_box(1)
+    bbox_text = run_bounding_box()
 
     # Save output to a file
     bbox_filename = f"/tmp/bbox_output_{timestamp}.txt"
