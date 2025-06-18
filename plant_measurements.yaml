@@ -1,7 +1,7 @@
 baseline: 0.35666446762074266
-bottom_depth_cm: 141.5021209716797
+bottom_depth_cm: .nan
 focal_length_px: 426.4611225510785
-mean_depth_cm: 147.33325958251953
-plant_height_cm: 11.662277221679688
+mean_depth_cm: .nan
+plant_height_cm: .nan
 plant_type: Spathiphyllum wallisii
-top_depth_cm: 153.16439819335938
+top_depth_cm: 275.99920654296875

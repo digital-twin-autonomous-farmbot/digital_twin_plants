@@ -1,0 +1,16 @@
+FROM python:3.10
+
+RUN apt-get update && \
+    apt-get install -y python3-venv r-base git && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Clone your repo (replace with your actual repo URL)
+RUN git clone https://github.com/digital-twin-autonomous-farmbot/digital_twin_plants.git .
+
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install -r requirements.txt
+
+ENV PATH="/opt/venv/bin:$PATH"

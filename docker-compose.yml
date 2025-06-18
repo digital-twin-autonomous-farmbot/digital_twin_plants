@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  minibot:
+    image: grahanoi95/minibot_image
+    network_mode: host
+    environment:
+      - ROS_DOMAIN_ID=42
+      - ROS_AUTOMATIC_DISCOVERY_RANGE=off
+      - ROS_STATIC_PEERS=100.72.230.30
+    tty: true
+    stdin_open: true
+    volumes:
+      - minibot_data:/data  # optional shared volume
+
+  digital_twin_plant:
+    build:
+      context: .
+      dockerfile: Dockerfile.digital_twin_plant
+    environment:
+      - PYTHONUNBUFFERED=1
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/workspace
+      - minibot_data:/data  # optional shared volume
+    working_dir: /workspace
+
+volumes:
+  minibot_data:
