@@ -3,7 +3,7 @@
 OUTDIR="calib_images"
 mkdir -p $OUTDIR
 
-for i in $(seq -f "%02g" 1 15); do
+for i in $(seq -f "%02g" 1 30); do
     echo "Aufnahme $i"
 
     libcamera-jpeg --camera 0 -o $OUTDIR/left_$i.jpg --width 640 --height 480
