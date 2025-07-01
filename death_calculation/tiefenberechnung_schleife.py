@@ -184,9 +184,9 @@ def process_plant_data(left_img_bytes, right_img_bytes, bbox_text):
 if __name__ == "__main__":
     # This part is only for testing purposes and should not be part of the main script
     # Find all matching image pairs and bbox files
-    left_images = sorted(glob.glob("calib_images/left_plant*.jpg"))
-    right_images = sorted(glob.glob("calib_images/right_plant*.jpg"))
-    bbox_files = sorted(glob.glob("calib_images/bbox_plant*.txt"))
+    left_images = sorted(glob.glob("../picture_taking_scripts/calib_images_ai/left_*.jpg"))
+    right_images = sorted(glob.glob("../picture_taking_scripts/calib_images_ai/right_*.jpg"))
+    bbox_files = sorted(glob.glob("../picture_taking_scripts/calib_images_ai/bbox_plant*.txt"))
 
     all_results = []
 
