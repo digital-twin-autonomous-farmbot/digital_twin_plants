@@ -40,7 +40,7 @@ def process_plant_data(left_img_bytes, right_img_bytes, bbox_text):
     Processes the left and right image bytes and bounding box description to calculate plant depth and height.
     """
     # Kalibrierdaten aus YAML laden
-    fs = cv2.FileStorage("results/stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
+    fs = cv2.FileStorage("../results/stereo_calibration.yaml", cv2.FILE_STORAGE_READ)
     mtx_l = fs.getNode("mtx_l").mat()
     mtx_r = fs.getNode("mtx_r").mat()
     dist_l = fs.getNode("dist_l").mat()
@@ -56,7 +56,7 @@ def process_plant_data(left_img_bytes, right_img_bytes, bbox_text):
     print(f"f = {focal_length:.2f} px, B = {baseline:.2f} cm")
 
     # Load Q matrix
-    Q = load_q_matrix("results/stereo_calibration_analysis.yaml")
+    Q = load_q_matrix("../results/stereo_calibration_analysis.yaml")
 
     # Decode image bytes
     imgL = cv2.imdecode(np.frombuffer(left_img_bytes, np.uint8), cv2.IMREAD_GRAYSCALE)
@@ -208,4 +208,4 @@ if __name__ == "__main__":
         all_results.append(results)
 
     # Save results to YAML
-    save_results_yaml("results/tiefenberechnung_results.yaml", all_results)
+    save_results_yaml("../results/tiefenberechnung_results.yaml", all_results)
