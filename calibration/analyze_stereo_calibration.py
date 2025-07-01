@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import yaml
+import glob
 
 def load_stereo_calibration(yaml_path):
     fs = cv2.FileStorage(yaml_path, cv2.FILE_STORAGE_READ)
@@ -31,8 +32,11 @@ def save_results_yaml(filename, mtx_l, mtx_r, T, Q):
 
 def main():
     yaml_path = "../results/stereo_calibration.yaml"
-    # Set your image size (width, height)
-    image_size = (640, 480)  # Change as per your camera resolution
+
+    # Automatische Bildgrößenerkennung
+    img_path = sorted(glob.glob("../picture_taking_scripts/calib_images/left_*.jpg"))[0]
+    img = cv2.imread(img_path)
+    image_size = (img.shape[1], img.shape[0])
 
     mtx_l, dist_l, mtx_r, dist_r, R, T = load_stereo_calibration(yaml_path)
     print("Left Camera Matrix:\n", mtx_l)
