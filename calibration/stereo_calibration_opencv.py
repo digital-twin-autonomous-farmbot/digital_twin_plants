@@ -15,8 +15,8 @@ objpoints = []  # 3D Punkte
 imgpoints_left = []
 imgpoints_right = []
 
-images_left = sorted(glob.glob("calib_images/left_*.jpg"))
-images_right = sorted(glob.glob("calib_images/right_*.jpg"))
+images_left = sorted(glob.glob("../picture_taking_scripts/calib_images/left_*.jpg"))
+images_right = sorted(glob.glob("../picture_taking_scripts/calib_images/right_*.jpg"))
 
 for left_img_path, right_img_path in zip(images_left, images_right):
     img_left = cv2.imread(left_img_path)
@@ -48,7 +48,7 @@ ret, _, _, _, _, R, T, E, F = cv2.stereoCalibrate(
 )
 
 # Speichere alle Kalibrierdaten in YAML
-fs = cv2.FileStorage("results/stereo_calibration.yaml", cv2.FILE_STORAGE_WRITE)
+fs = cv2.FileStorage("../results/stereo_calibration.yaml", cv2.FILE_STORAGE_WRITE)
 
 fs.write("mtx_l", mtx_l)
 fs.write("dist_l", dist_l)
